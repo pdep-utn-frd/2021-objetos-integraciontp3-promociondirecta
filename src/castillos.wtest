@@ -1,6 +1,48 @@
 
+import castillos.*
+
 describe "castillos en guerra" {
-	test "2 + 2 = 4" {
-		assert.equals(4, 2 + 2)
+
+const goliat = new Guardias(capacidad = 100, agotamiento = 50, ambiente = salon)  
+	const ragnar = new Guardias(capacidad = 200, agotamiento = 20, ambiente = salon) 
+
+	const snape = new Burocratas(nombre = "Snape", fNacimiento = 1020, experiencia = 89 )
+	const snapeMiedoso = new Burocratas(nombre = "Snape", fNacimiento = 1020, experiencia = 89, panico = true )
+
+	const dumbledore = new Rey(name = "dumbledore")
+	const adolfo = new Rey(name = "adolfo")
+
+	const hogwartz = new Castillos(rey = dumbledore, guardias = [goliat,ragnar], lBurocratas = [snape,snapeMiedoso], murallas = 100, ambientes = [torre,salon, torre]  )
+	const naveira = new Castillos(rey = adolfo, guardias = [goliat], lBurocratas = [snape], murallas = 250, ambientes = [torre,salon])
+
+	test "Hogwartz preparando defensas" {
+		hogwartz.prepararDefensas()
+		assert.equals(478, hogwartz.defensas())
 	}
-}
+
+	test "rey ordena fiesta y Guardias recuperan valores"{
+		hogwartz.prepararDefensas()
+		dumbledore.organizaFiesta(hogwartz)
+		assert.equals(hogwartz.guardias().get(0).agotamiento(), 53)
+	}
+
+	test "rey ordena fiesta y Burocratas reducen panico"{
+		hogwartz.prepararDefensas()
+		dumbledore.organizaFiesta(hogwartz)
+		assert.that(hogwartz.lBurocratas().get(0).panico())
+	}
+	test "naveira ataca a hogwartz sin defensas"{
+		todocastillos.agregarCastillos(hogwartz)
+		todocastillos.agregarCastillos(naveira)
+		adolfo.atacar(hogwartz, naveira)
+		assert.equals(hogwartz.estabilidad(),900)
+	}
+	test "naveira ataca a hogwartz con defensas"{
+		todocastillos.agregarCastillos(hogwartz)
+		todocastillos.agregarCastillos(naveira)
+		hogwartz.prepararDefensas()
+		adolfo.atacar(hogwartz, naveira)
+		assert.equals(hogwartz.estabilidad(),1000)
+	}	
+
+} 
