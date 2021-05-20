@@ -99,5 +99,5 @@ object torre{
 		return 8
 	}
 }
-
+//El uso de clases es muy útil cuando tenemos varios objetos que se comportan de manera similar 
 //El uso de clases es muy útil cuando tenemos varios objetos que se comportan de manera similar 
