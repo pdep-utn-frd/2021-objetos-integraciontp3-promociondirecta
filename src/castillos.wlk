@@ -9,11 +9,14 @@ class Castillos{
 	method fiesta(){
 		if (self.aptoParaFiesta()){
 			self.guardias().forEach({g => g.agotamiento(g.agotamiento() + 8)}) 
-			self.lBurocratas().forEach({b => b.panico(true)})
+			self.lBurocratas().forEach({b => b.panico(false)})
 		}
 	}
 	method aptoParaFiesta(){
 		return estabilidad > 100*1.25
+	}
+	method alimentarGuardias(cocinero){
+		self.guardias().forEach({g => g.agotamiento(g.agotamiento() + cocinero.servirPlato() ) })
 	}
 
 	method castilloDerrotado(){
@@ -37,7 +40,7 @@ class Castillos{
 class Guardias{
 	var property capacidad = 10
 	var property agotamiento = 10
-	var property ambiente = ""
+	var property ambiente = salon
 }
 
 class Burocratas{
@@ -80,6 +83,23 @@ class Rey{
 		})				 
 	}
 }
+object carneCiervo{
+	method valorNutritivo(){
+		return 7
+	}
+}
+object carneCalamar{
+	method valorNutritivo(){
+		return 7
+	}
+}
+
+class Cocineros{
+	var property plato 
+	method servirPlato(){
+		return plato.valorNutritivo()						
+	}
+}
 
 object todocastillos{
 	var property listadoCastillos = []
@@ -99,5 +119,30 @@ object torre{
 		return 8
 	}
 }
+
+object cuartel{
+    const guardia=[]
+
+    method reclutar(){
+        guardia.add(new Guardias(capacidad =50,agotamiento= 0, ambiente = 10))
+    }
+    method guardia() = guardia
+    method puntajeHabitacion(){
+        return 10
+    }
+}
+
+object salaDeReuniones{        //se reclutan burocratas
+    const burocrata=[]
+    method aliarBurocrata(){
+    burocrata.add(new Burocratas(fNacimiento = 1060, experiencia=0))
+
+    }
+    method burocrata()= burocrata
+    method puntajeHabitacion(){
+        return 6
+    }
+}
+
 //El uso de clases es muy útil cuando tenemos varios objetos que se comportan de manera similar 
-//El uso de clases es muy útil cuando tenemos varios objetos que se comportan de manera similar 
+

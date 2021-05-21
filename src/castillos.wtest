@@ -1,4 +1,3 @@
-
 import castillos.*
 
 describe "castillos en guerra" {
@@ -14,7 +13,12 @@ const goliat = new Guardias(capacidad = 100, agotamiento = 50, ambiente = salon)
 
 	const hogwartz = new Castillos(rey = dumbledore, guardias = [goliat,ragnar], lBurocratas = [snape,snapeMiedoso], murallas = 100, ambientes = [torre,salon, torre]  )
 	const naveira = new Castillos(rey = adolfo, guardias = [goliat], lBurocratas = [snape], murallas = 250, ambientes = [torre,salon])
-
+	
+	const dobbyCocinero = new Cocineros(plato = carneCiervo)
+	test "dobby alimenta los guardias"{
+		hogwartz.alimentarGuardias(dobbyCocinero)
+		assert.equals(ragnar.agotamiento(), 27)
+	}
 	test "Hogwartz preparando defensas" {
 		hogwartz.prepararDefensas()
 		assert.equals(478, hogwartz.defensas())
@@ -29,7 +33,7 @@ const goliat = new Guardias(capacidad = 100, agotamiento = 50, ambiente = salon)
 	test "rey ordena fiesta y Burocratas reducen panico"{
 		hogwartz.prepararDefensas()
 		dumbledore.organizaFiesta(hogwartz)
-		assert.that(hogwartz.lBurocratas().get(0).panico())
+		assert.notThat(hogwartz.lBurocratas().get(0).panico())
 	}
 	test "naveira ataca a hogwartz sin defensas"{
 		todocastillos.agregarCastillos(hogwartz)
@@ -43,6 +47,7 @@ const goliat = new Guardias(capacidad = 100, agotamiento = 50, ambiente = salon)
 		hogwartz.prepararDefensas()
 		adolfo.atacar(hogwartz, naveira)
 		assert.equals(hogwartz.estabilidad(),1000)
-	}	
+	}
+		
 
 } 
